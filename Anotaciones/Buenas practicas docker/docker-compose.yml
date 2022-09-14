@@ -1,0 +1,15 @@
+version: "3.8"
+
+services:
+ jon-service:
+   build:
+     context: .
+     dockerfile: Dockerfile
+   image: jonimage:latest
+   container_name: eureka-new-jon
+   ports:
+     - "8761:8761"
+   networks:
+     - mia
+networks:
+ mia:

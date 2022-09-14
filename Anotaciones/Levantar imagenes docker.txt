@@ -1,0 +1,9 @@
+docker network create busidomain
+
+docker run --name infraestructuradomain-eurekaserver -p 8761:8761 --network=busidomain -d paymentchain/microservice-docker-eurekaserver:1.0-SNAPSHOT
+docker run --name infraestructuradomain-adminserver -p 8080:8080 --network=busidomain -d paymentchain/microservice-docker-adminserver:1.0-SNAPSHOT
+docker run --name infraestructuradomain-configserver -p 8081:8081 --network=busidomain -d paymentchain/microservice-docker-configserver:1.0-SNAPSHOT
+
+docker run --name businessdomain-products -p 8083:8083 --network=busidomain -d paymentchain/microservice-docker-products:1.0-SNAPSHOT
+docker run --name businessdomain-transactions -p 8082:8082 --network=busidomain -d paymentchain/microservice-docker-transactions:1.0-SNAPSHOT
+docker run --name businessdomain-customer -p 8084:8084 --network=busidomain -d paymentchain/microservice-docker-customer:1.0-SNAPSHOT
