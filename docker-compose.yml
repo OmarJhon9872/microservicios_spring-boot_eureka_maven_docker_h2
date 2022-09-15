@@ -64,6 +64,7 @@ services:
          -Xms256M 
          -Xmx256M
          -DEUREKA_SERVER=http://registry-discovery:8761/eureka/
+         -Dspring.profiles.active=production
     depends_on:
       - registry-discovery
       - configuration
@@ -81,7 +82,7 @@ services:
          -Xms256M 
          -Xmx256M
          -DEUREKA_SERVER=http://registry-discovery:8761/eureka/
-         -Dspring.profiles.active=development
+         -Dspring.profiles.active=production
     depends_on:
       - registry-discovery
       - configuration
@@ -99,7 +100,7 @@ services:
          -Xms256M 
          -Xmx256M
          -DEUREKA_SERVER=http://registry-discovery:8761/eureka/
-         -Dspring.profiles.active=development
+         -Dspring.profiles.active=production
     depends_on:
       - registry-discovery
       - configuration
@@ -117,7 +118,7 @@ services:
     volumes:
         #allow *.sql, *.sql.gz, or *.sh and is execute only if data directory is empty
         - ./dbfiles:/docker-entrypoint-initdb.d
-        - /var/lib/postgres_data:/var/lib/postgresql/data
+        - ./var/lib/postgres_data:/var/lib/postgresql/data
     environment:
         #default postgres super user
         POSTGRES_USER: postgres

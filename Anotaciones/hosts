@@ -1,0 +1,8 @@
+﻿#Clientes de eureka en configuracion interna de SO de host para redireccionamiento
+127.0.0.1 businessdomain-customer
+127.0.0.1 businessdomain-transactions
+127.0.0.1 businessdomain-products
+
+127.0.0.1 infraestructuradomain-adminserver
+127.0.0.1 infraestructuradomain-configserver
+127.0.0.1 eurekaServer

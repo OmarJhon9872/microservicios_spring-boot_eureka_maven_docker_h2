@@ -37,7 +37,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
-        
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
@@ -99,7 +99,7 @@
                     </execution>
                 </executions>
             </plugin>        
-       <!--  <plugin>
+         <plugin>
                 <groupId>com.spotify</groupId>
                 <artifactId>dockerfile-maven-plugin</artifactId>
                 <version>${dockerfile-maven-version}</version>                               
@@ -109,7 +109,6 @@
                         <phase>package</phase>
                         <goals>                                              
                             <goal>build</goal>
-                            <goal>push</goal>
                         </goals>
                     </execution>
                 </executions>
@@ -120,7 +119,7 @@
                         <JAR_FILE>${project.build.finalName}.jar</JAR_FILE>
                     </buildArgs>
                 </configuration>
-            </plugin>-->
+            </plugin>
             
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
