@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.paymentchain</groupId>
@@ -8,17 +9,17 @@
     <packaging>pom</packaging>
     <name>paymentchainparent</name>
     <description>POM parent project for all spring boot projects</description>
-   
+
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target> 
+        <maven.compiler.target>1.8</maven.compiler.target>
         <spring-boot.version>2.6.2</spring-boot.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding> 
-        <postgres.version>42.2.16</postgres.version>    
-        <java-validation.version>2.0.1.Final</java-validation.version> 
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <postgres.version>42.2.16</postgres.version>
+        <java-validation.version>2.0.1.Final</java-validation.version>
         <dockerfile-maven-version>1.4.13</dockerfile-maven-version>
     </properties>
-    
+
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -29,10 +30,17 @@
                 <scope>import</scope>
             </dependency>
         </dependencies>
-    </dependencyManagement>  
-        
-    
+    </dependencyManagement>
+
+
     <dependencies>
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-annotations</artifactId>
+            <version>1.6.6</version>
+        </dependency>
+
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
@@ -41,24 +49,24 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
-        </dependency>                
-       
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
-        
-         <dependency>
+
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-        
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-        
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -70,9 +78,9 @@
                     <artifactId>junit-vintage-engine</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>  
-    </dependencies> 
-          
+        </dependency>
+    </dependencies>
+
     <build>
         <plugins>
             <!--Tghis plugin generate reports in two differents forma .txt and xml 
@@ -82,15 +90,15 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.0.0-M5</version>
                 <configuration>
-                    <useSystemClassLoader>false</useSystemClassLoader>                    
+                    <useSystemClassLoader>false</useSystemClassLoader>
                 </configuration>
             </plugin>
             <!--It is the spring-boot repackage goal that repackages the JAR produced 
             by maven to specify the main class and make it executable using an embedded container-->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>     
-               <version>${spring-boot.version}</version>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring-boot.version}</version>
                 <executions>
                     <execution>
                         <goals>
@@ -98,21 +106,21 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>        
-         <plugin>
+            </plugin>
+            <plugin>
                 <groupId>com.spotify</groupId>
                 <artifactId>dockerfile-maven-plugin</artifactId>
-                <version>${dockerfile-maven-version}</version>                               
+                <version>${dockerfile-maven-version}</version>
                 <executions>
-                    <execution>                        
+                    <execution>
                         <id>build-docker-image</id>
                         <phase>package</phase>
-                        <goals>                                              
+                        <goals>
                             <goal>build</goal>
                         </goals>
                     </execution>
                 </executions>
-                <configuration>                       
+                <configuration>
                     <repository>paymentchain/microservice-docker-${project.artifactId}</repository>
                     <tag>${project.version}</tag>
                     <buildArgs>
@@ -120,7 +128,7 @@
                     </buildArgs>
                 </configuration>
             </plugin>
-            
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
@@ -132,9 +140,9 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.2.0</version>   
-                <configuration>                   
-                </configuration> 
+                <version>3.2.0</version>
+                <configuration>
+                </configuration>
             </plugin>
             <!--generate project code documentation-->
             <!--  <plugin>

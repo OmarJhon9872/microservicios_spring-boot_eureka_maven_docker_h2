@@ -20,7 +20,7 @@ spring:
       failFast: true
       #name of base properties config file, before profile
       name: config-client
-      #profile: development
+      profile: development
       #label: latest
       username: admin
       password: qwerty
