@@ -77,8 +77,19 @@ public class CustomerRestController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> put(@PathVariable String id, @RequestBody Customer input) {
-        return null;
+    public ResponseEntity<?> put(@PathVariable Long id, @RequestBody Customer input) {
+        return customerRepository.findById(id)
+                .map(customerFound -> {
+                    customerFound.setCode(input.getCode());
+                    customerFound.setAddress(input.getAddress());
+                    customerFound.setIban(input.getIban());
+                    customerFound.setName(input.getName());
+                    customerFound.setPhone(input.getPhone());
+                    customerFound.setSurname(input.getSurname());
+
+                    return new ResponseEntity<>(customerRepository.save(customerFound), HttpStatus.OK);
+                })
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
@@ -88,8 +99,14 @@ public class CustomerRestController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable String id) {
-        return null;
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+        return customerRepository.findById(id)
+                .map(customerFound -> {
+                    customerRepository.delete(customerFound);
+
+                    return new ResponseEntity<>(HttpStatus.OK);
+                })
+                .orElse(ResponseEntity.notFound().build());
     }
 
 }

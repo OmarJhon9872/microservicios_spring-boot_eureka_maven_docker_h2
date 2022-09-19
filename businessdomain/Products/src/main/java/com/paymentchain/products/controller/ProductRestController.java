@@ -1,10 +1,13 @@
 package com.paymentchain.products.controller;
 
 import com.paymentchain.products.respository.ProductRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -28,9 +31,14 @@ public class ProductRestController {
     private String role;
 
     @GetMapping()
-    public List<Product> list() {
+    public ResponseEntity<?> list() {
         System.out.print("el role es : " + role);
-        return productRepository.findAll();
+        List<Product> findAll  = productRepository.findAll();
+
+        if(findAll.isEmpty()){
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(findAll);
     }
 
     @GetMapping("/{id}")
@@ -42,19 +50,41 @@ public class ProductRestController {
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> put(@PathVariable String id, @RequestBody Product input) {
-        return null;
+    public ResponseEntity<?> put(@PathVariable Long id, @RequestBody Product input) {
+        return productRepository.findById(id)
+                .map(productFound -> {
+                    Product product = productRepository.findByCode(input.getCode());
+
+                    if(product != null && Objects.equals(product.getCode(), input.getCode()) && !Objects.equals(productFound.getCode(), input.getCode())){
+                        return new ResponseEntity<>("Código de producto duplicado", HttpStatus.CONFLICT);
+                    }
+                    productFound.setCode(input.getCode());
+                    productFound.setName(input.getName());
+
+                    return new ResponseEntity<>(productRepository.save(productFound), HttpStatus.OK);
+                })
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
     public ResponseEntity<?> post(@RequestBody Product input) {
-        Product save = productRepository.save(input);
-        return ResponseEntity.ok(save);
+
+        Product product = productRepository.findByCode(input.getCode());
+        if(product == null){
+            return new ResponseEntity<>(productRepository.save(input), HttpStatus.CREATED);
+        }
+        return new ResponseEntity<>("Código de producto duplicado", HttpStatus.CONFLICT);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable String id) {
-        return null;
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+        return productRepository.findById(id)
+                .map(customerFound -> {
+                    productRepository.delete(customerFound);
+
+                    return new ResponseEntity<>(HttpStatus.OK);
+                })
+                .orElse(ResponseEntity.notFound().build());
     }
 
 }
